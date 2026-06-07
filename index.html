@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#151128">
+  <meta name="description" content="支援 200 人的免費線上抽獎轉盤">
+  <title>幸運轉盤｜線上抽獎</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="幸運轉盤首頁">
+      <span class="brand-mark">LUCKY</span>
+      <span>幸運轉盤</span>
+    </a>
+    <div class="header-actions">
+      <span class="save-state" id="saveState">已自動儲存</span>
+      <button class="icon-button" id="fullscreenButton" type="button" title="全螢幕" aria-label="切換全螢幕">
+        <span aria-hidden="true">⛶</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="stage" aria-labelledby="pageTitle">
+      <div class="title-block">
+        <p class="eyebrow">LUCKY DRAW</p>
+        <h1 id="pageTitle">今天的幸運兒是誰？</h1>
+        <p>按下開始，讓好運替你做決定。</p>
+      </div>
+
+      <div class="wheel-area">
+        <div class="pointer" aria-hidden="true"></div>
+        <div class="wheel-frame">
+          <canvas id="wheel" width="760" height="760" aria-label="抽獎轉盤"></canvas>
+          <div class="wheel-hub">
+            <span id="hubCount">8</span>
+            <small>位候選人</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="winner-card" id="winnerCard" aria-live="assertive">
+        <span class="winner-label">準備好了嗎？</span>
+        <strong id="winnerName">等待開獎</strong>
+      </div>
+
+      <button class="spin-button" id="spinButton" type="button">
+        <span>開始抽獎</span>
+        <kbd>SPACE</kbd>
+      </button>
+      <p class="spin-hint" id="spinHint">每位參加者都有相同的中獎機會</p>
+    </section>
+
+    <aside class="control-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">CONTROL ROOM</p>
+          <h2>抽獎控制台</h2>
+        </div>
+        <span class="count-badge"><b id="participantCount">8</b> / 200</span>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab active" id="participantsTab" type="button" role="tab" aria-selected="true" data-panel="participantsPanel">參加名單</button>
+        <button class="tab" id="historyTab" type="button" role="tab" aria-selected="false" data-panel="historyPanel">
+          得獎紀錄 <span id="historyCount">0</span>
+        </button>
+      </div>
+
+      <section class="tab-panel active" id="participantsPanel" role="tabpanel">
+        <label class="field-label" for="namesInput">
+          每行一位參加者
+          <span id="lineCounter">8 / 200</span>
+        </label>
+        <textarea id="namesInput" maxlength="5000" spellcheck="false" placeholder="王小明&#10;陳美玲&#10;林大華"></textarea>
+        <div class="input-actions">
+          <label class="secondary-button file-button">
+            匯入 CSV / TXT
+            <input id="fileInput" type="file" accept=".csv,.txt,text/csv,text/plain">
+          </label>
+          <button class="text-button" id="clearNamesButton" type="button">清空名單</button>
+        </div>
+
+        <div class="setting-row">
+          <div>
+            <strong>中獎後移除</strong>
+            <span>避免同一人重複中獎</span>
+          </div>
+          <label class="switch">
+            <input id="removeWinnerToggle" type="checkbox" checked>
+            <span class="switch-track"></span>
+          </label>
+        </div>
+
+        <div class="setting-row">
+          <div>
+            <strong>抽獎音效</strong>
+            <span>播放轉動與中獎提示音</span>
+          </div>
+          <label class="switch">
+            <input id="soundToggle" type="checkbox" checked>
+            <span class="switch-track"></span>
+          </label>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="historyPanel" role="tabpanel" hidden>
+        <div class="history-empty" id="historyEmpty">
+          <span>✦</span>
+          <strong>還沒有得獎者</strong>
+          <p>完成第一次抽獎後，紀錄會出現在這裡。</p>
+        </div>
+        <ol class="history-list" id="historyList"></ol>
+        <button class="secondary-button full-width" id="clearHistoryButton" type="button">清除得獎紀錄</button>
+      </section>
+    </aside>
+  </main>
+
+  <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
